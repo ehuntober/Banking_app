@@ -41,3 +41,7 @@ def applyforloan():
             session["accountNumber"] = account["accountNumber"]
             print("setting"+ str(session["accountNumber"]))
             return redirect("http://"+s.getsockname()[0]+":3000/")
+    return render_template("index.html")
+
+
+@app.route("/sendmoney",methods=["GET"])
