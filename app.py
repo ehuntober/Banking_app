@@ -44,4 +44,32 @@ def applyforloan():
     return render_template("index.html")
 
 
-@app.route("/sendmoney",methods=["GET"])
+@app.route("/sendmoney",methods=["GET","POST"])
+def sendmoney():
+    print("Processing send money request")
+    file = open("bank_info.txt","r")
+    Lines = file.readlines()
+    fromAccount = None
+    toAccount = None
+    for line in Lines:
+        if (line.split()[1] == str(session.get("accountNumber","0"))):
+            fromAccount = {"name":line.split()[0],"accountNumber":line.split()[1],"age":line.split()[3]}
+            print(fromAccount)
+    for line in Lines:
+        if (line.split()[1] ==str(request.form['accountNumber'])):
+            toAccount = {"name":line.split()[0],"accountNumber":line.split()[1],"age":line.split()[2],"balance":line.split()[3]}
+            print(toAccount)
+    if(fromAccount == None or toAccount == None):
+        flash(f"Can't find account {str(request.form['account'].strip())}, please try again!", "warning")
+        return redirect("http://" + s.getsockname()[0]+":3000/")
+    print("Bali: " + str(float(fromAccount['balance'])))
+    print("Amount: " + str(float(request.form['amount'])))
+    if (str(fromAccount["accountNumber"] == str(toAccount["accountNumber"]))):
+        flash("You can't send money to yourself!","warning")
+        return redirect("http://" + s.getsockname()[0]+ ":3000/")
+    if (float(fromAccount["balance"] ) < float(request.form["amount"])):
+        flash("You don't have enough money to send this amount!", "warning")
+        return redirect("http://" + s.getsockname()[0] + ":3000/")
+    if (float: f)
+        
+            
